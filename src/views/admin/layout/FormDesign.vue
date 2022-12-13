@@ -137,22 +137,23 @@ export default {
           + new Date().getTime().toString().substring(5);
     },
     del(index) {
-      this.$confirm('删除组件将会连带删除包含该组件的条件以及相关设置，是否继续?', '提示', {
-        confirmButtonText: '确 定',
-        cancelButtonText: '取 消',
-        type: 'warning'
-      }).then(() => {
-        if (this.forms[index].name === 'SpanLayout'){
+      this.$confirm({
+				title: '提示',
+				content: "删除组件将会连带删除包含该组件的条件以及相关设置，是否继续?",
+				onOk: () => {
+					if (this.forms[index].name === 'SpanLayout'){
           //删除的是分栏则遍历删除分栏内所有子组件
-          this.forms[index].props.items.forEach(item => {
-            this.removeFormItemAbout(item)
-          })
-          this.forms[index].props.items.length = 0
-        }else {
-          this.removeFormItemAbout(this.forms[index])
-        }
-        this.forms.splice(index, 1)
-      })
+            this.forms[index].props.items.forEach(item => {
+              this.removeFormItemAbout(item)
+            })
+            this.forms[index].props.items.length = 0
+          }else {
+            this.removeFormItemAbout(this.forms[index])
+          }
+          this.forms.splice(index, 1)
+				},
+				onCancel() {},
+      });
     },
     async removeFormItemAbout(item){
       this.nodeMap.forEach(node => {

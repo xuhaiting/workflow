@@ -76,15 +76,14 @@ export default {
       return true;
     },
     exit() {
-      this.$confirm('未发布的内容将不会被保存，是否直接退出 ?', '提示', {
-        confirmButtonText: '退出',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        //window.location.reload()
-        //this.$store.commit('clearTemplate')
-        this.$router.push('/formsPanel')
-      })
+      this.$confirm({
+				title: '提示',
+				content: "未发布的内容将不会被保存，是否直接退出?",
+				onOk: () => {
+					this.$router.push('/formsPanel')
+				},
+				onCancel() {},
+      });
     },
     to(path) {
       this.$emit('input', path)

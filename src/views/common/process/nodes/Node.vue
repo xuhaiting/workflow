@@ -105,6 +105,7 @@ export default {
 .node{
   padding: 0 50px;
   width: 220px;
+  box-sizing: content-box;
   position: relative;
   &:before{
     content: '';

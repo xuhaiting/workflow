@@ -71,6 +71,7 @@ export default {
 .node{
   padding: 30px 55px 0;
   width: 220px;
+  box-sizing: content-box;
   .node-body{
     overflow: hidden;
     cursor: pointer;

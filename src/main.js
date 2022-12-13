@@ -4,12 +4,15 @@ import router from "./router";
 import store from './store'
 require('@/utils/CustomUtil')
 
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-
 import "@/assets/theme.less";
 import "@/assets/global.css";
-import "@/assets/iconfont/iconfont.css"
+import "@/assets/iconfont/iconfont.css";
+
+import Antd from "ant-design-vue";
+import 'ant-design-vue/dist/antd.min.css';
+
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
 
 import Ellipsis from '@/components/common/Ellipsis'
 import WDialog from '@/components/common/WDialog'
@@ -19,6 +22,7 @@ Vue.use(ElementUI);
 Vue.use(Ellipsis);
 Vue.use(WDialog);
 Vue.use(Tip);
+Vue.use(Antd);
 
 Vue.config.productionTip = false
 

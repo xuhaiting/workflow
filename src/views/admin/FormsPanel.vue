@@ -130,16 +130,17 @@ export default {
       })
     },
     delGroup(group) {
-      this.$confirm('删除分组并不会删除表单，表单将会被转移到 “其他” 分组，确定要删除分组 ' + group.name + '?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        updateGroup({id: group.id}, 'delete').then(rsp => {
-          this.$message.success(rsp.data)
-          this.getGroups()
-        }).catch(err => this.$message.error(err.response.data))
-      })
+      this.$confirm({
+				title: '提示',
+				content: `删除分组并不会删除表单，表单将会被转移到 “其他” 分组，确定要删除分组 ' ${group.name} ?`,
+				onOk: () => {
+					updateGroup({id: group.id}, 'delete').then(rsp => {
+            this.$message.success(rsp.data)
+            this.getGroups()
+          }).catch(err => this.$message.error(err.response.data))
+				},
+				onCancel() {},
+      });
     },
     editGroup(group) {
       this.$prompt('请输入新的组名', '修改分组名', {
@@ -170,23 +171,25 @@ export default {
     },
     stopFrom(item) {
       let tip = item.isStop ? ' 启用后将会进入 “其他” 分组，是否继续？' : ' 停用后将会被转移到 “已停用” 分组，您可以再次启用或者删除它，是否继续?';
-      this.$confirm(item.name + tip, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.updateForm(item, (item.isStop ? 'using' : 'stop'));
-      })
+      this.$confirm({
+				title: '提示',
+				content: `${item.name} ${tip}`,
+				onOk: () => {
+					this.updateForm(item, (item.isStop ? 'using' : 'stop'));
+				},
+				onCancel() {},
+			});
     },
     moveFrom(item) {
       if (item.isStop) {
-        this.$confirm('您确定要删除表单 ' + item.name + ' 吗，删除后无法恢复，是否继续？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.updateForm(item, 'delete');
-        })
+        this.$confirm({
+          title: '提示',
+          content: `您确定要删除表单 ' ${item.name} ' 吗，删除后无法恢复，是否继续？`,
+          onOk: () => {
+            this.updateForm(item, 'delete');
+          },
+          onCancel() {},
+        });
       } else {
         if (this.moveSelect === null || this.moveSelect === ''){
           this.$message.error('请选择分组')

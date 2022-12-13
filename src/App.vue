@@ -33,7 +33,7 @@
 	body {
 		margin: 0;
 		min-width: 500px;
-		background-color: #f5f6f6;
+		background-color: #f5f6f6 !important;
 	}
 	body,html {margin:0; height:100%;}
 	ul {

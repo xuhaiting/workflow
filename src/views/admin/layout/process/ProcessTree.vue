@@ -399,6 +399,7 @@ export default {
  margin: 0 auto;
 }
 .process-end{
+  box-sizing: content-box;
   width: 60px;
   margin: 0 auto;
   margin-bottom: 20px;

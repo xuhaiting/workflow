@@ -220,38 +220,38 @@ export default {
       this.validateDesign()
     },
     doPublish() {
-      this.$confirm('如果您只想预览请选择预览，确认发布后流程立即生效，是否继续?', '提示', {
-        confirmButtonText: '发布',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        console.log(this.setup)
-        let template = {
-          formId: this.setup.formId,
-          formName: this.setup.formName,
-          logo: JSON.stringify(this.setup.logo),
-          settings: JSON.stringify(this.setup.settings),
-          groupId: this.setup.groupId,
-          formItems: JSON.stringify(this.setup.formItems),
-          process: JSON.stringify(this.setup.process),
-          remark: this.setup.remark
-        }
-        if (this.isNew || !this.$isNotEmpty(this.setup.formId)) {
-          createForm(template).then(rsp => {
-            this.$message.success("创建表单成功")
-            this.$router.push("/formsPanel")
-          }).catch(err => {
-            this.$message.error(err)
-          })
-        } else {
-          updateFormDetail(template).then(rsp => {
-            this.$message.success("更新表单成功")
-            this.$router.push("/formsPanel")
-          }).catch(err => {
-            this.$message.error(err)
-          })
-        }
-      })
+      this.$confirm({
+				title: '提示',
+				content: '如果您只想预览请选择预览，确认发布后流程立即生效，是否继续?',
+				onOk: () => {
+					let template = {
+            formId: this.setup.formId,
+            formName: this.setup.formName,
+            logo: JSON.stringify(this.setup.logo),
+            settings: JSON.stringify(this.setup.settings),
+            groupId: this.setup.groupId,
+            formItems: JSON.stringify(this.setup.formItems),
+            process: JSON.stringify(this.setup.process),
+            remark: this.setup.remark
+          }
+          if (this.isNew || !this.$isNotEmpty(this.setup.formId)) {
+            createForm(template).then(rsp => {
+              this.$message.success("创建表单成功")
+              this.$router.push("/formsPanel")
+            }).catch(err => {
+              this.$message.error(err)
+            })
+          } else {
+            updateFormDetail(template).then(rsp => {
+              this.$message.success("更新表单成功")
+              this.$router.push("/formsPanel")
+            }).catch(err => {
+              this.$message.error(err)
+            })
+          }
+				},
+				onCancel() {},
+			});
     }
   }
 }

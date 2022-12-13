@@ -65,14 +65,14 @@ export default {
 		},
 
 		exit() {
-			this.$confirm("未发布的内容将不会被保存，是否直接退出 ?", "提示", {
-				confirmButtonText: "退出",
-				cancelButtonText: "取消",
-				type: "warning",
-			}).then(() => {
-				// this.$router.push("/formsPanel");
-				console.log("退出...");
-			});
+			this.$confirm({
+				title: '提示',
+				content: "未发布的内容将不会被保存，是否直接退出?",
+				onOk: () => {
+					this.$router.back()
+				},
+				onCancel() {},
+      		});
 		},
 	},
 };

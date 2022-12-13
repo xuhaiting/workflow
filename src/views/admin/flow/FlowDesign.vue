@@ -66,9 +66,10 @@
 <script>
 import FlowHeader from "./FlowHeader";
 import ProcessDesign from "@/views/admin/layout/ProcessDesign";
+import Config from "./config";
 
 export default {
-	name: "FormProcessDesign",
+	name: "FlowDesign",
 	components: { FlowHeader, ProcessDesign },
 	data() {
 		return {
@@ -114,31 +115,22 @@ export default {
 	},
 	methods: {
 		reset() {
-			this.$confirm("重置将还原所有配置，是否继续", "提示", {
-				confirmButtonText: "确定",
-				cancelButtonText: "取消",
-				type: "warning",
-			}).then(() => {
-				this.loadInitFrom();
+			this.$confirm({
+				title: '提示',
+				content: '重置将还原所有配置，是否继续',
+				onOk: () => {
+					this.loadInitFrom();
+				},
+				onCancel() {},
 			});
 		},
 
 		loadInitFrom() {
-			this.$store.commit("loadForm", {
-				formItems: [],
-				process: {
-					id: "root",
-					parentId: null,
-					type: "ROOT",
-					name: "发起人",
-					desc: "任何人",
-					props: {
-						assignedUser: [],
-						formPerms: [],
-					},
-					children: {},
-				},
-			});
+			const id = this.$route.query.id;
+			const { flowDesignData } = Config;
+			const loadFormData = id ? flowDesignData.id : flowDesignData.init;
+			const data = JSON.parse(JSON.stringify(loadFormData));
+			this.$store.commit("loadForm", data);
 		},
 
 		preview() {

@@ -67,7 +67,10 @@ export default {
 
 <style lang="less" scoped>
 .node-select{
+  display: flex;
+  flex-wrap: wrap;
   div{
+    flex-grow: 1;
     display: inline-block;
     margin: 5px 5px;
     cursor: pointer;

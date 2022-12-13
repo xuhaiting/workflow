@@ -6,7 +6,7 @@
           <el-input v-model="search" @input="searchUser" style="width: 95%;" size="small"
                     clearable placeholder="搜索人员，支持拼音、姓名" prefix-icon="el-icon-search"/>
           <div v-show="!showUsers">
-            <ellipsis hoverTip style="height: 18px; color: #8c8c8c; padding: 5px 0 0" :row="1" :content="deptStackStr">
+            <ellipsis hoverTip style="color: #8c8c8c; padding: 5px 0 0" :row="1" :content="deptStackStr">
               <i slot="pre" class="el-icon-office-building"></i>
             </ellipsis>
             <div style="margin-top: 5px">
@@ -278,13 +278,14 @@ export default {
       this.recover()
     },
     clearSelected(){
-      this.$confirm('您确定要清空已选中的项?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.recover()
-      })
+      this.$confirm({
+				title: '提示',
+				content: '您确定要清空已选中的项?',
+				onOk: () => {
+					this.recover()
+				},
+				onCancel() {},
+			});
     },
     close() {
       this.$emit('close')
