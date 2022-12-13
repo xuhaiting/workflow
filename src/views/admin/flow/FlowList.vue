@@ -4,18 +4,20 @@
 			<flow-header @add="add"></flow-header>
 		</el-header>
 		<a-table
+			bordered
 			:columns="tableColumns"
 			:data-source="tableData"
 			rowKey="id"
+			class="tableContent"
 		>
 			<div slot="index" slot-scope="record, text, index">
 				{{index + 1}}
 			</div>
 			<div slot="action" class="btn-list" slot-scope="record">
-				<a-button type="primary" @click="edit(record)">
+				<a-button type="primary" size="small" @click="edit(record)">
 					编辑
 				</a-button>
-				<a-button type="primary" @click="stop(record)">
+				<a-button type="primary" size="small" @click="stop(record)">
 					停止
 				</a-button>
 			</div>
@@ -76,9 +78,9 @@ export default {
 	flex-shrink: 0;
 }
 
-.designBody {
+.tableContent {
 	flex-grow: 1;
-	width: 100%;
+	// padding: 20px;
 	overflow: auto;
 }
 
