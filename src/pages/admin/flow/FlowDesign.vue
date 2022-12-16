@@ -65,7 +65,7 @@
 </template>
 <script>
 import FlowHeader from "./FlowHeader";
-import ProcessDesign from "@/views/admin/layout/ProcessDesign";
+import ProcessDesign from "../layout/ProcessDesign";
 import Config from "./config";
 
 export default {

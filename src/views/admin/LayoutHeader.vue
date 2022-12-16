@@ -60,7 +60,17 @@ export default {
   },
   methods: {
     publish() {
-      this.$emit('publish')
+      const template = {
+				formId: this.setup.formId,
+				formName: this.setup.formName,
+				logo: JSON.stringify(this.setup.logo),
+				settings: JSON.stringify(this.setup.settings),
+				groupId: this.setup.groupId,
+				formItems: this.setup.formItems,
+				process: this.setup.process,
+			};
+			console.log("publish", template);
+      // this.$emit('publish')
     },
     preview() {
       this.$emit('preview')

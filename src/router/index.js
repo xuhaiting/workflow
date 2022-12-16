@@ -18,13 +18,13 @@ const router = new Router({
     {
       path: "/flowList",
       name: "FlowList",
-      component: () => import("@/views/admin/flow/FlowList.vue"),
+      component: () => import("@/pages/admin/flow/FlowList.vue"),
       meta: {title: '流程列表', viewport: viewport}
     },
     {
       path: "/flowDesign",
       name: "FlowDesign",
-      component: () => import("@/views/admin/flow/FlowDesign.vue"),
+      component: () => import("@/pages/admin/flow/FlowDesign.vue"),
       meta: {title: '流程引擎', viewport: viewport}
     },
     {
