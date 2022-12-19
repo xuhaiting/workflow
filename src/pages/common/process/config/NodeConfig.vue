@@ -13,15 +13,72 @@
 				/>
 			</el-tab-pane>
 			<el-tab-pane label="表单权限设置" name="permissions">
-				<el-button type="primary" @click="setFormData">设置表单数据</el-button>
+				<a-form
+					layout="inline"
+					:form="paramsForm"
+					@submit="handleSubmit"
+				>
+					<a-row
+						:key="index"
+						v-for="(k, index) in paramsForm.getFieldValue('keys')"
+					>
+						<a-form-item
+							v-for="(item, i) in jsonArray"
+							:key="i"
+							:label="item.label"
+						>
+							<a-input
+								v-decorator="[`params[${k}][${item.field}]`]"
+								:placeholder="item.placeholder"
+							/>
+						</a-form-item>
+						<a-form-item>
+							<a-icon
+								v-if="
+									paramsForm.getFieldValue('keys').length > 1
+								"
+								type="minus-circle-o"
+								:disabled="
+									paramsForm.getFieldValue('keys').length ===
+									1
+								"
+								@click="() => remove(k)"
+							/>
+						</a-form-item>
+					</a-row>
+					<a-row type="flex" justify="center">
+						<a-col>
+							<a-form-item>
+								<a-button type="primary" block @click="add">
+									<a-icon type="plus" />增加参数
+								</a-button>
+							</a-form-item>
+						</a-col>
+						<a-col>
+							<a-form-item>
+								<a-button
+									type="primary"
+									block
+									html-type="submit"
+								>
+									<a-icon type="save" />获取表单字段
+								</a-button>
+							</a-form-item>
+						</a-col>
+					</a-row>
+				</a-form>
+				<el-button type="primary" @click="setFormData"
+					>设置表单数据</el-button
+				>
 				<el-button type="error" @click="resetFormData">清空</el-button>
-				<FormAuthorityConfig :formItems="formItems"/>
+				<FormAuthorityConfig :formItems="formItems" />
 			</el-tab-pane>
 		</el-tabs>
 	</div>
 </template>
 
 <script>
+let id = 0;
 import Approval from "./ApprovalNodeConfig.vue";
 import Condition from "./ConditionNodeConfig.vue";
 import Delay from "./DelayNodeConfig.vue";
@@ -30,7 +87,6 @@ import Trigger from "./TriggerNodeConfig.vue";
 import FormAuthorityConfig from "./FormAuthorityConfig.vue";
 import Root from "./RootNodeConfig.vue";
 import Concurrent from "./ConcurrentGroupItemConfig.vue";
-//CONCURRENT
 export default {
 	name: "NodeConfig",
 	components: {
@@ -47,6 +103,18 @@ export default {
 		return {
 			active: "properties",
 			noForm: ["CONCURRENT", "CONDITION", "DELAY", "TRIGGER"],
+			jsonArray: [
+				{
+					label: "字段",
+					field: "key",
+					placeholder: "参数键",
+				},
+				{
+					label: "值",
+					field: "value",
+					placeholder: "参数值",
+				},
+			],
 			formItems: [
 				{
 					title: "多行文本输入",
@@ -110,28 +178,73 @@ export default {
 			}
 		},
 	},
+	beforeCreate() {
+		this.paramsForm = this.$form.createForm(this, { name: "paramsForm" });
+		this.paramsForm.getFieldDecorator("keys", {
+			initialValue: [],
+			preserve: true,
+		});
+	},
 	methods: {
+		handleSubmit(e) {
+			e.preventDefault();
+			this.paramsForm.validateFields((err, values) => {
+				console.log("values", values);
+				if (!err) {
+					const { keys, params } = values;
+					console.log("Received values of form: ", values);
+					console.log(
+						"Merged values:",
+						keys.map((key) => params[key])
+					);
+				}
+			});
+		},
+
+		remove(k) {
+			const { paramsForm } = this;
+			const keys = paramsForm.getFieldValue("keys");
+			if (keys.length === 1) {
+				return;
+			}
+			paramsForm.setFieldsValue({
+				keys: keys.filter((key) => key !== k),
+			});
+		},
+
+		add() {
+			const { paramsForm } = this;
+			const keys = paramsForm.getFieldValue("keys");
+			const nextKeys = keys.concat(id++);
+			paramsForm.setFieldsValue({
+				keys: nextKeys,
+			});
+		},
+
 		resetFormData() {
 			const selectNode = this.selectNode;
-			selectNode.props['formPerms'] = [];
-			selectNode.props['formItems'] = [];
-			this.$store.commit('selectedNode', selectNode);
+			selectNode.props["formPerms"] = [];
+			selectNode.props["formItems"] = [];
+			this.$store.commit("selectedNode", selectNode);
 		},
 		setFormData() {
 			const selectNode = this.selectNode;
-			const formPerms = this.formItems.map(form => {
+			const formPerms = this.formItems.map((form) => {
 				return {
 					id: form.id,
 					title: form.title,
 					required: form.props.required,
-					perm: this.$store.state.selectedNode.type === 'ROOT' ? 'E' : 'R'
-				}
-			})
-			console.log('formPerms', formPerms);
-			selectNode.props['formPerms'] = formPerms;
-			selectNode.props['formItems'] = this.formItems;
-			this.$store.commit('selectedNode', selectNode);
-		}
+					perm:
+						this.$store.state.selectedNode.type === "ROOT"
+							? "E"
+							: "R",
+				};
+			});
+			console.log("formPerms", formPerms);
+			selectNode.props["formPerms"] = formPerms;
+			selectNode.props["formItems"] = this.formItems;
+			this.$store.commit("selectedNode", selectNode);
+		},
 	},
 };
 </script>

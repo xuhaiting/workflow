@@ -11,7 +11,7 @@
     </div>
     <el-drawer :title="selectedNode.name" :visible.sync="showConfig"
                :modal-append-to-body="false"
-               :size="selectedNode.type === 'CONDITION' ? '600px':'500px'"
+               size="600px"
                direction="rtl" :modal="false" destroy-on-close>
       <div slot="title">
         <el-input v-model="selectedNode.name" size="medium" v-show="showInput"

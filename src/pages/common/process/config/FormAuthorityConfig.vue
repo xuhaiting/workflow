@@ -31,7 +31,7 @@
 							:label="item.value"
 							v-model="permSelect"
 							@change="() => allSelect(item.value)"
-							>{{item.label}}</el-radio
+							>{{ item.label }}</el-radio
 						>
 					</template>
 					<template slot-scope="scope">
@@ -43,31 +43,107 @@
 					</template>
 				</el-table-column>
 			</template>
-			<!-- <el-table-column prop="readOnly" label="只读" width="80">
-        <template slot="header" slot-scope="scope">
-          <el-radio label="R" v-model="permSelect" @change="allSelect('R')">只读</el-radio>
-        </template>
-        <template slot-scope="scope">
-          <el-radio v-model="scope.row.perm" label="R" :name="scope.row.id"></el-radio>
-        </template>
-      </el-table-column>
-      <el-table-column prop="editable" label="可编辑" width="90" v-if="nowNode.type !== 'CC'">
-        <template slot="header" slot-scope="scope">
-          <el-radio label="E" v-model="permSelect" @change="allSelect('E')">可编辑</el-radio>
-        </template>
-        <template slot-scope="scope">
-          <el-radio v-model="scope.row.perm" label="E" :name="scope.row.id"></el-radio>
-        </template>
-      </el-table-column>
-      <el-table-column prop="hide" label="隐藏" width="80">
-        <template slot="header" slot-scope="scope">
-          <el-radio label="H" v-model="permSelect" @change="allSelect('H')">隐藏</el-radio>
-        </template>
-        <template slot-scope="scope">
-          <el-radio v-model="scope.row.perm" label="H" :name="scope.row.id"></el-radio>
-        </template>
-      </el-table-column> -->
 		</el-table>
+		<!-- <el-table
+			:header-cell-style="{ background: '#f5f6f6' }"
+			:data="formPerms"
+			border
+			style="width: 100%"
+		>
+			<el-table-column
+				prop="title"
+				show-overflow-tooltip
+				label="表单字段"
+			>
+				<template slot-scope="scope">
+					<span v-if="scope.row.required" style="color: #c75450">
+						*
+					</span>
+					<span>{{ scope.row.title }}</span>
+				</template>
+			</el-table-column>
+			<template v-for="(item, index) in columns">
+				<el-table-column
+					:prop="item.prop"
+					:key="index"
+					:label="item.label"
+					width="90"
+					v-if="nowNode.type !== item.node"
+				>
+					<template slot="header">
+						<el-radio
+							:label="item.value"
+							v-model="permSelect"
+							@change="() => allSelect(item.value)"
+							>{{ item.label }}</el-radio
+						>
+					</template>
+					<template slot-scope="scope">
+						<el-radio
+							v-model="scope.row.perm"
+							:label="item.value"
+							:name="scope.row.id"
+						></el-radio>
+					</template>
+				</el-table-column>
+			</template>
+			<el-table-column prop="readOnly" label="只读" width="80">
+				<template slot="header" slot-scope="scope">
+					<el-radio
+						label="R"
+						v-model="permSelect"
+						@change="allSelect('R')"
+						>只读</el-radio
+					>
+				</template>
+				<template slot-scope="scope">
+					<el-radio
+						v-model="scope.row.perm"
+						label="R"
+						:name="scope.row.id"
+					></el-radio>
+				</template>
+			</el-table-column>
+			<el-table-column
+				prop="editable"
+				label="可编辑"
+				width="90"
+				v-if="nowNode.type !== 'CC'"
+			>
+				<template slot="header" slot-scope="scope">
+					<el-radio
+						label="E"
+						v-model="permSelect"
+						@change="allSelect('E')"
+						>可编辑</el-radio
+					>
+				</template>
+				<template slot-scope="scope">
+					<el-radio
+						v-model="scope.row.perm"
+						label="E"
+						:name="scope.row.id"
+					></el-radio>
+				</template>
+			</el-table-column>
+			<el-table-column prop="hide" label="隐藏" width="80">
+				<template slot="header" slot-scope="scope">
+					<el-radio
+						label="H"
+						v-model="permSelect"
+						@change="allSelect('H')"
+						>隐藏</el-radio
+					>
+				</template>
+				<template slot-scope="scope">
+					<el-radio
+						v-model="scope.row.perm"
+						label="H"
+						:name="scope.row.id"
+					></el-radio>
+				</template>
+			</el-table-column>
+		</el-table> -->
 	</div>
 </template>
 
@@ -90,17 +166,20 @@ export default {
 					label: "只读",
 					prop: "readOnly",
 					value: "R",
+					slots: { title: 'title' },
 				},
 				{
 					label: "编辑",
 					prop: "editable",
 					value: "E",
 					node: "CC",
+					slots: { title: 'title' },
 				},
 				{
 					label: "隐藏",
 					prop: "hide",
 					value: "H",
+					slots: { title: 'title' },
 				},
 			],
 		};
