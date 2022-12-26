@@ -12,7 +12,10 @@
 					:config="selectNode.props"
 				/>
 			</el-tab-pane>
-			<el-tab-pane label="表单权限设置" name="permissions">
+			<el-tab-pane label="选择表单" name="formResource">
+				<FormResource :config="selectNode.props"/>
+			</el-tab-pane>
+			<el-tab-pane v-if="false" label="表单权限设置" name="permissions">
 				<a-form
 					layout="inline"
 					:form="paramsForm"
@@ -87,6 +90,7 @@ import Trigger from "./TriggerNodeConfig.vue";
 import FormAuthorityConfig from "./FormAuthorityConfig.vue";
 import Root from "./RootNodeConfig.vue";
 import Concurrent from "./ConcurrentGroupItemConfig.vue";
+import FormResource from "./FormResource.vue"
 export default {
 	name: "NodeConfig",
 	components: {
@@ -98,6 +102,7 @@ export default {
 		Cc,
 		FormAuthorityConfig,
 		Concurrent,
+		FormResource
 	},
 	data() {
 		return {
